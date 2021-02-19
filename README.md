@@ -1,1 +1,2 @@
-Capstone project for DevOps Nano degree
+[![CircleCI](https://circleci.com/gh/ahmed-abdelazim/Cloud-Devops-Capstone-project.svg?style=svg)](https://circleci.com/gh/ahmed-abdelazim/Cloud-Devops-Capstone-project)
+# Capstone project for DevOps Nano degree

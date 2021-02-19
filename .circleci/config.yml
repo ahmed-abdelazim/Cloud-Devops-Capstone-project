@@ -12,6 +12,33 @@ jobs:
           name: Lint php code
           command: |
             php -l ./app/index.php
+
+  create-cluster:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command:  |
+            yum -y install tar gzip jq
+      - run:
+          name: install eksctl
+          command:  |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            mv /tmp/eksctl /usr/local/bin
+      - run:
+          name: check if cluster exists
+          command:  |
+              CLUSTER=$(yes | eksctl get cluster -o json | jq -r .[]."metadata"."name" || true)
+              echo $CLUSTER
+              if [ -z $CLUSTER ]
+              then
+              eksctl create cluster ahmed-capstone
+              fi
+
+
+
 workflows:
   default:
     jobs:
