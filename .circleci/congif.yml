@@ -1,0 +1,11 @@
+version: 2.1
+jobs:
+  lint:
+    docker:
+      - image: circleci/php
+    steps:
+      - checkout
+      - run:
+          name: Lint php code
+          command: |
+            php -l ./app/index.php
