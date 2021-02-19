@@ -33,4 +33,3 @@ workflows:
       #- dockerize
       - docker/publish:
           image: abdelazim/capstone
-          update-description: true
