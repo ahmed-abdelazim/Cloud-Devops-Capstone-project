@@ -12,12 +12,9 @@ jobs:
           name: Lint php code
           command: |
             php -l ./app/index.php
-  dockerize:
-      docker/publish:
-        - image: abdelazim/capstone
-
 workflows:
   default:
     jobs:
       - lint
-      - dockerize
+      - docker/publish:
+          image: abdelazim/capstone
