@@ -45,3 +45,4 @@ workflows:
       - lint
       - docker/publish:
           image: abdelazim/capstone
+      - create-cluster    
