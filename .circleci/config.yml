@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  docker: circleci/docker@1.5.0
 
 jobs:
   lint:
@@ -21,11 +23,14 @@ jobs:
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker --version
             systemctl start docker
-            docker build -t ml-microservice .
-            docker tag ml-microservice abdelazim/capstone
+            docker build -t capstone .
+            docker tag capstone abdelazim/capstone
             docker push abdelazim/capstone
 workflows:
   default:
     jobs:
       - lint
-      - dockerize
+      #- dockerize
+      - docker/publish:
+          image: abdelazim/capstoneE
+          update-description: true
