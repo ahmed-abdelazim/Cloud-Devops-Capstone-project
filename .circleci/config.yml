@@ -13,8 +13,8 @@ jobs:
           command: |
             php -l ./app/index.php
   dockerize:
-      - docker/publish:
-          image: abdelazim/capstone
+      docker/publish:
+        - image: abdelazim/capstone
 
 workflows:
   default:
