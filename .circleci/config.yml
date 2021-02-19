@@ -9,3 +9,7 @@ jobs:
           name: Lint php code
           command: |
             php -l ./app/index.php
+workflows:
+  default:
+    jobs:
+      - lint
