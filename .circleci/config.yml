@@ -12,12 +12,13 @@ jobs:
             php -l ./app/index.php
   dockerize:
     docker:
-      - image: circleci/docker-gc
+      - image: docker/docker
     steps:
       - checkout  
       - run:
           name: Dockerize the app
           command: |
+            echo DOCKERHUB_PASSWORD | docker login -u abdelazim --password-stdin
             docker --version
 workflows:
   default:
