@@ -12,7 +12,7 @@ jobs:
             php -l ./app/index.php
   dockerize:
     docker:
-      - image: docker/docker
+      - image: docker
     steps:
       - checkout  
       - run:
