@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  docker-publish: circleci/docker-publish@1.0.0
+
 jobs:
   lint:
     docker:
@@ -9,6 +12,15 @@ jobs:
           name: Lint php code
           command: |
             php -l ./app/index.php
+  dockerize:
+    docker:
+      - image: circleci/docker-gc
+    steps:
+      -checkout  
+      - run:
+          name: Dockerize the app
+          command: |
+            docker --version
 workflows:
   default:
     jobs:
