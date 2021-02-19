@@ -13,23 +13,11 @@ jobs:
           command: |
             php -l ./app/index.php
   dockerize:
-    docker:
-      - image: docker
-    steps:
-      - checkout  
-      - run:
-          name: Dockerize the app
-          command: |
-            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker --version
-            systemctl start docker
-            docker build -t capstone .
-            docker tag capstone abdelazim/capstone
-            docker push abdelazim/capstone
+      - docker/publish:
+          image: abdelazim/capstone
+
 workflows:
   default:
     jobs:
       - lint
-      #- dockerize
-      - docker/publish:
-          image: abdelazim/capstone
+      - dockerize
