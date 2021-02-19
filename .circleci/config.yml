@@ -20,6 +20,7 @@ jobs:
           command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker --version
+            systemctl start docker
             docker build -t ml-microservice .
             docker tag ml-microservice abdelazim/capstone
             docker push abdelazim/capstone
