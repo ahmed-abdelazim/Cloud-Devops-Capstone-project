@@ -16,7 +16,7 @@ jobs:
     docker:
       - image: circleci/docker-gc
     steps:
-      -checkout  
+      - checkout  
       - run:
           name: Dockerize the app
           command: |
