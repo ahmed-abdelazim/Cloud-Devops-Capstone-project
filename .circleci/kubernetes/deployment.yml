@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: capstone-{{WorkflowID}}
-        image: nginx
+        image: abdelazim/capstone
         ports:
         - containerPort: 80
