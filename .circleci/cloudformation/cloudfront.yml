@@ -33,7 +33,7 @@ Resources:
 
 Outputs:
   WorkflowID:
-    Value: !Sub ${WorkflowID}
-    Description: URL for website hosted on S3
+    Value: !Sub ${elbUrl}
+    Description: ELB URL
     Export:
-      Name: WorkflowID
+      Name: elbUrl
