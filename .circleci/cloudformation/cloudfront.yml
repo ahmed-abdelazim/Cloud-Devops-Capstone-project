@@ -20,12 +20,11 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !Sub "udapeople-${WorkflowID}.s3.amazonaws.com"
+          - DomainName: !Sub "${elbUrl}"
             Id: webpage
-            S3OriginConfig:
-              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+            CustomOriginConfig:
+              OriginProtocolPolicy: match-viewer
         Enabled: True
-        DefaultRootObject: index.html
         DefaultCacheBehavior:
           ForwardedValues:
             QueryString: False

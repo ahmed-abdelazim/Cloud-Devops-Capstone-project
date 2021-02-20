@@ -57,7 +57,11 @@ jobs:
             deployment=$(cat ./.circleci/kubernetes/deployment.yml | sed "s/{{WorkflowID}}/$WorkflowID/g")
             service=$(cat ./.circleci/kubernetes/service.yml | sed "s/{{WorkflowID}}/$WorkflowID/g")
             echo "$deployment" | kubectl apply -f - 
-            echo "$service" | kubectl create -f - 
+            echo "$service" | kubectl create -f -
+            sleep 2
+            elbUrl=$(kubectl get service | grep $WorkflowID | awk '{print $4}')
+            # send ELB url to memstash
+            curl -H "Content-Type: text/plain" -H "token: adfa8598-ef10-4708-9e9d-c7a3e1af267a" --request PUT --data "$elbUrl" https://api.memstash.io/values/elbUrl 
 
   cloudfront-update:
     docker:
@@ -74,7 +78,7 @@ jobs:
             aws cloudformation deploy \
               --template-file ".circleci/cloudformation/cloudfront.yml" \
               --stack-name ahmed-capstone \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides elbUrl=$(curl -H "token: adfa8598-ef10-4708-9e9d-c7a3e1af267a" --request GET https://api.memstash.io/values/elbUrl)\
               --tags project=capstone
   cleanup:
     docker:
@@ -106,5 +110,7 @@ workflows:
       - deploy-app:
           requires: [create-cluster, docker/publish]
       #- cloudfront-update
+      - cloudfront-update:
+          requires: [deploy-app]            
       - cleanup:
-          requires: [deploy-app]        
+          requires: [cloudfront-update]
