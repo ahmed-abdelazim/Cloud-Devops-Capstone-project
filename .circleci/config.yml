@@ -101,6 +101,7 @@ workflows:
       - lint
       - docker/publish:
           image: abdelazim/capstone
+          tag: latest
       - create-cluster
       - deploy-app:
           requires: [create-cluster, docker/publish]
