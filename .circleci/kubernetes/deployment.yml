@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capstone-deployment-{{WorkflowID}}
+  labels:
+    app: capstone-{{WorkflowID}}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: capstone-{{WorkflowID}}
+  template:
+    metadata:
+      labels:
+        app: capstone-{{WorkflowID}}
+    spec:
+      containers:
+      - name: capstone-{{WorkflowID}}
+        image: nginx
+        ports:
+        - containerPort: 80
