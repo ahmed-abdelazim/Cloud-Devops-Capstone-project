@@ -2,8 +2,8 @@ Description: >
   Cloudfront distribution for Capstone project.
 
 Parameters:
-  WorkflowID:
-    Description: Unique identifier.
+  elbUrl:
+    Description: ELB url.
     Type: String
 
 
