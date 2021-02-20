@@ -76,6 +76,24 @@ jobs:
               --stack-name ahmed-capstone \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=capstone
+  cleanup:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command:  |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x kubectl
+            mv kubectl /usr/bin
+            # login into cluster
+            aws eks update-kubeconfig --name ahmed-capstone
+      - run:
+          name: delete old deployments and services
+          command:  |
+            kubectl get service -o=name | grep capstone-service | grep -v ${CIRCLE_WORKFLOW_ID:0:7} | xargs -I{} kubectl delete {}      
+            kubectl get deployment -o=name | grep capstone-deployment | grep -v ${CIRCLE_WORKFLOW_ID:0:7} | xargs -I{} kubectl delete {}      
 
 workflows:
   default:
@@ -86,4 +104,6 @@ workflows:
       - create-cluster
       - deploy-app:
           requires: [create-cluster, docker/publish]
-      #- cloudfront-update        
+      #- cloudfront-update
+      - cleanup:
+          requires: [deploy-app]        
