@@ -50,12 +50,15 @@ jobs:
             mv kubectl /usr/bin
             # login into cluster
             aws eks update-kubeconfig --name ahmed-capstone
+      - run:
+          name: Deploy
+          command:  |
             WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
             deployment=$(cat ./.circleci/kubernetes/deployment.yml | sed "s/{{WorkflowID}}/$WorkflowID/g")
             service=$(cat ./.circleci/kubernetes/service.yml | sed "s/{{WorkflowID}}/$WorkflowID/g")
             echo "$deployment" | kubectl apply -f - 
             echo "$service" | kubectl create -f - 
-  
+
   cloudfront-update:
     docker:
       - image: amazon/aws-cli

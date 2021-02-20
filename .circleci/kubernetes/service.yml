@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    deployment: capstone-{{WorkflowID}}
+    app: capstone-{{WorkflowID}}
   ports:
     - protocol: TCP
       port: 80
