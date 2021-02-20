@@ -82,5 +82,5 @@ workflows:
           image: abdelazim/capstone
       - create-cluster
       - deploy-app:
-          requires: create-cluster
+          requires: [create-cluster]
       #- cloudfront-update        
